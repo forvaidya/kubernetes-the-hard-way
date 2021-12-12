@@ -62,9 +62,17 @@ INTERNAL_IP=$(curl -s -H "Metadata-Flavor: Google" \
   http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ip)
 ```
 
+This command fails on GCP !! (see workaround)
 ```
 REGION=$(curl -s -H "Metadata-Flavor: Google" \
   http://metadata.google.internal/computeMetadata/v1/project/attributes/google-compute-default-region)
+```
+If above command doesn't work, try following command
+Reference: https://github.com/kelseyhightower/kubernetes-the-hard-way/issues/659#issue-878322123
+
+```
+curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | cut -d/ -f 4 | sed 's/.\{2\}$//'
+
 ```
 
 ```
